@@ -60,7 +60,7 @@ public class ImageRepository {
 //            return null;
 //        }
 //    }
-    //Mithun-Chnages-End
+    //Mithun-Changes-End
 
     //The method creates an instance of EntityManager
     //Executes JPQL query to fetch the image from the database with corresponding id
