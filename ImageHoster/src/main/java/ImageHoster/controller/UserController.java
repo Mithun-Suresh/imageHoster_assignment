@@ -10,10 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Pattern;
 import java.util.List;
-
 
 @Controller
 public class UserController {
@@ -23,6 +24,7 @@ public class UserController {
 
     @Autowired
     private ImageService imageService;
+
 
     //This controller method is called when the request pattern is of type 'users/registration'
     //This method declares User type and UserProfile type object
@@ -37,13 +39,30 @@ public class UserController {
         return "users/registration";
     }
 
+    //Mithun-Changes-Start
     //This controller method is called when the request pattern is of type 'users/registration' and also the incoming request is of POST type
     //This method calls the business logic and after the user record is persisted in the database, directs to login page
+//    @RequestMapping(value = "users/registration", method = RequestMethod.POST)
+//    public String registerUser(User user) {
+//        userService.registerUser(user);
+//        return "redirect:/users/login";
+//    }
+
     @RequestMapping(value = "users/registration", method = RequestMethod.POST)
-    public String registerUser(User user) {
-        userService.registerUser(user);
-        return "redirect:/users/login";
+        public String registerUser(User user, Model model) {
+
+        if (user.getPassword().matches("(?=.*\\W)(?=.*[a-zA-Z])(?=.*\\d).{3,}$")) {
+            userService.registerUser(user);
+            return "redirect:/users/login";
+        } else {
+            String error = ("Password must contain at least 1 alphabet, 1 number & 1 special character");
+            User user1 = new User();
+            model.addAttribute("User", user1);
+            model.addAttribute("passwordTypeError", error);
+            return "users/registration";
+        }
     }
+    //Mithun-Changes-End
 
     //This controller method is called when the request pattern is of type 'users/login'
     @RequestMapping("users/login")
