@@ -40,6 +40,7 @@ public class ImageController {
         return "images";
     }
 
+    //Mithun-Changes-Start
     //This method is called when the details of the specific image with corresponding title are to be displayed
     //The logic is to get the image from the databse with corresponding title. After getting the image from the database the details are shown
     //First receive the dynamic parameter in the incoming request URL in a string variable 'title' and also the Model type object
@@ -58,7 +59,6 @@ public class ImageController {
 //        return "images/image";
 //    }
 
-    //Mithun-Changes-Start
     @RequestMapping("/images/{imageId}/{title}")
     public String showImage(@PathVariable("imageId") Integer imageId, Model model,
 //                            Comment comment,
@@ -106,6 +106,7 @@ public class ImageController {
         return "redirect:/images";
     }
 
+    //Mithun-Changes-Start
     //This controller method is called when the request pattern is of type 'editImage'
     //This method fetches the image with the corresponding id from the database and adds it to the model with the key as 'image'
     //The method then returns 'images/edit.html' file wherein you fill all the updated details of the image
@@ -122,7 +123,6 @@ public class ImageController {
 //        return "images/edit";
 //    }
 
-    //Mithun-Changes-Start
     @RequestMapping(value = "/editImage")
     public String editImage(@RequestParam("imageId") Integer imageId, Model model, HttpSession session) {
         Image image = imageService.getImage(imageId);
@@ -182,6 +182,7 @@ public class ImageController {
     }
 
 
+    //Mithun-Changes-Start
     //This controller method is called when the request pattern is of type 'deleteImage' and also the incoming request is of DELETE type
     //The method calls the deleteImage() method in the business logic passing the id of the image to be deleted
     //Looks for a controller method with request mapping of type '/images'
@@ -191,7 +192,6 @@ public class ImageController {
 //        return "redirect:/images";
 //    }
 
-    //Mithun-Changes-Start
     @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
     public String deleteImageSubmit(@RequestParam(name = "imageId") Integer imageId, Model model, HttpSession session) {
 

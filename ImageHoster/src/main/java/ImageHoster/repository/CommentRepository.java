@@ -8,11 +8,16 @@ import org.thymeleaf.standard.expression.SelectionVariableExpression;
 import javax.persistence.*;
 import java.util.List;
 
+//The annotation is a special type of @Component annotation which describes that the class defines a data repository
 @Repository
 public class CommentRepository {
+
+    //Get an instance of EntityManagerFactory from persistence unit with name as 'imageHoster'
     @PersistenceUnit(unitName = "imageHoster")
     private EntityManagerFactory emf;
 
+    //The method creates an instance of EntityManager
+    //Executes JPQL query to add all the comments to the database
     public Comment addComment(Comment addComment) {
 
         EntityManager em = emf.createEntityManager();

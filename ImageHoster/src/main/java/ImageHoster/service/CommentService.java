@@ -13,6 +13,7 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    //Call the addComment() method in the Repository to add all the comments in the database
     public void addComment(Comment addComment) {
         commentRepository.addComment(addComment);
     }
