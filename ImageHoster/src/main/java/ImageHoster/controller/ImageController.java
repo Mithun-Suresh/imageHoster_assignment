@@ -1,8 +1,10 @@
 package ImageHoster.controller;
 
+import ImageHoster.model.Comment;
 import ImageHoster.model.Image;
 import ImageHoster.model.Tag;
 import ImageHoster.model.User;
+import ImageHoster.service.CommentService;
 import ImageHoster.service.ImageService;
 import ImageHoster.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ImageController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private CommentService commentService;
 
     //This method displays all the images in the user home page after successful login
     @RequestMapping("images")
@@ -55,10 +60,15 @@ public class ImageController {
 
     //Mithun-Changes-Start
     @RequestMapping("/images/{imageId}/{title}")
-    public String showImage(@PathVariable("imageId") Integer imageId, Model model, @PathVariable String title) {
+    public String showImage(@PathVariable("imageId") Integer imageId, Model model,
+//                            Comment comment,
+                            @PathVariable String title) {
         Image image = imageService.getImage(imageId);
+//        List<Comment> getComment = commentService.getComment(imageId);
+
         model.addAttribute("image", image);
         model.addAttribute("tags", image.getTags());
+//        model.addAttribute("comments", getComment);
         return "images/image";
     }
     //Mithun-Changes-End
@@ -71,6 +81,7 @@ public class ImageController {
     }
 
     //This controller method is called when the request pattern is of type 'images/upload' and also the incoming request is of POST type
+    //The method receives all the details of the image to be stored in the database, and now the image will be sent to the business logic to be persisted in the database
     //The method receives all the details of the image to be stored in the database, and now the image will be sent to the business logic to be persisted in the database
     //After you get the imageFile, set the user of the image by getting the logged in user from the Http Session
     //Convert the image to Base64 format and store it as a string in the 'imageFile' attribute
@@ -122,6 +133,7 @@ public class ImageController {
             model.addAttribute("image", image);
             model.addAttribute("tags", image.getTags());
             model.addAttribute("editError", error);
+ //           model.addAttribute("comments", comment);
             return "images/image";
         }else {
             String tags = convertTagsToString(image.getTags());
